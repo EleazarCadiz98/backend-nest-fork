@@ -7,11 +7,11 @@ export class AppService {
   }
 
   getHelloAleman(): string {
-    return 'Hallo Welt';
+    return 'Hallo Welt!!';
   }
 
   getHelloFrances(): string {
-    return 'mi mensaje de pruebas';
+    return 'Bonjour le monde!!';
   }
 
   getHelloEspanol(): string {

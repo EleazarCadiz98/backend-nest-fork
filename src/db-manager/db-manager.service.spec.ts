@@ -15,4 +15,11 @@ describe('DbManagerService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
+
+  it('GetUser: Validacion de MockServer', () => {
+    const resultService = service.getUser(1);
+
+    expect(resultService.id).toBe(1);
+    expect(resultService.name).toBe('Eleazar');
+  });
 });

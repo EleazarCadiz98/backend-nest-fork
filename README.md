@@ -55,6 +55,9 @@ $ npm run test:e2e
 
 # test coverage
 $ npm run test:cov
+
+# auto-run tests on code changes
+$ npm run test:watch
 ```
 
 ## Deployment
