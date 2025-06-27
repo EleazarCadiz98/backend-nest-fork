@@ -49,7 +49,6 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry("${DOCKER_REGISTRY}", DOCKER_REGISTRY_CREDENTIALS){
-                        sh "docker login -u -p ${registry}"
                         sh "docker build -t backend-nest-image-ele ."
                         sh "docker tag backend-nest-image-ele ${DOCKER_IMAGE_NAME}/backend-nest-elemagen"
                         sh "docker push ${DOCKER_IMAGE_NAME}/backend-nest-elemagen"
