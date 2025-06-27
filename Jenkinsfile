@@ -18,7 +18,7 @@ pipeline {
         stage ("Proceso de Build & Test"){
             agent {
                 docker {
-                    image: 'node:22'
+                    image 'node:22'
                     reuseNode true // Permite reutilizar la imagen docker
                 }
             }
