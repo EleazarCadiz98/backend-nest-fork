@@ -31,6 +31,13 @@ pipeline {
                     }
                 }
             }
+            stages {
+                stage ("Ejecución de Pruebas") {
+                    steps {
+                        sh 'npm run test:cov' // Elimina el node_modules y lo vuelve a instalar 
+                    }
+                }
+            }
 
             
         }
