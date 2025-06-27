@@ -10,7 +10,7 @@ pipeline {
                 sh 'echo "Comenzando mi pipeline"'
             }
         }
-        stage ("Saludo a usuario"){
+        stage ("Saliendo de otro escenarios"){
             steps {
                 sh 'echo "Saliendo de este grupo de escenarios"'
             }
