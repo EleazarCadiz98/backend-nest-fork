@@ -42,5 +42,10 @@ pipeline {
                 }
             }
         }
+        stage ("Build y Push de imagen Docker"){
+            steps {
+                sh 'docker build -t backend-nest-image-ele .'
+            }
+        }
     }
 }
