@@ -5,9 +5,9 @@ pipeline {
     // escenarios -> escenario -> pasos
     environment {
         NPM_CONFIG_CACHE= "${WORKSPACE}/.npm"
-        DOCKER_IMAGE_NAME= "us-west1-docker.pkg.dev/lab-agibiz/docker-repository"
-        DOCKER_REGISTRY= "https://us-west1-docker.pkg.dev"
-        DOCKER_REGISTRY_CREDENTIALS= "gcp-registry-ele" 
+        DOCKER_IMAGE_NAME= "us-west1-docker.pkg.dev/lab-agibiz/docker-repository" // Repositorio en GCP
+        DOCKER_REGISTRY= "https://us-west1-docker.pkg.dev" // Usuario ("registry") de GCP
+        DOCKER_REGISTRY_CREDENTIALS= "gcp-registry-ele"  // Credenciales ("REGISTRY") de GCP
     }
     stages {
         stage ("Saludo a usuario"){
@@ -48,10 +48,10 @@ pipeline {
         stage ("Build y Push de imagen Docker"){
             steps {
                 script {
-                    docker.withRegistry("${DOCKER_REGISTRY}", DOCKER_REGISTRY_CREDENTIALS){
-                        sh "docker build -t backend-nest-image-ele ."
-                        sh "docker tag backend-nest-image-ele ${DOCKER_IMAGE_NAME}/backend-nest-elemagen"
-                        sh "docker push ${DOCKER_IMAGE_NAME}/backend-nest-elemagen"
+                    docker.withRegistry("${DOCKER_REGISTRY}", DOCKER_REGISTRY_CREDENTIALS){ // Funcion que permite hacer login en el REPO DOCKER
+                        sh "docker build -t backend-nest-image-ele ." // Se compila la imagen con un nombre personalizado
+                        sh "docker tag backend-nest-image-ele ${DOCKER_IMAGE_NAME}/backend-nest-elemagen" // Se crea un tag de la imagen creada hacia el repo en GCP
+                        sh "docker push ${DOCKER_IMAGE_NAME}/backend-nest-elemagen" // Se realiza la subida de la imagen al repo GCP
                     }
                 }
                 
