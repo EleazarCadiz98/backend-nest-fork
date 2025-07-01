@@ -41,3 +41,22 @@ spec:
   - protocol: TCP
     port: 80
     targetPort: 3000
+---
+apiVersion: networking.k8s.io/v1 #Configuracion del Ingress Controller de NGINX
+kind: Ingress
+metadata:
+  name: ingres-backend-nest-ele
+  namespace: lab-ele
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: ele.devops.cl
+    http: 
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+           service:
+            name: backend-nest-eleservice
+            port:
+              number: 80
