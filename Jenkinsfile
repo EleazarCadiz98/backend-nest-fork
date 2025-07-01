@@ -52,23 +52,24 @@ pipeline {
                         sh "docker build -t backend-nest-image-ele ." // Se compila la imagen con un nombre personalizado
                         sh "docker tag backend-nest-image-ele ${DOCKER_IMAGE_NAME}/backend-nest-elemagen" // Se crea un tag de la imagen creada hacia el repo en GCP
                         sh "docker push ${DOCKER_IMAGE_NAME}/backend-nest-elemagen" // Se realiza la subida de la imagen al repo GCP
+                        sh "docker push ${DOCKER_IMAGE_NAME}/backend-nest-elemagen:${BUILD_NUMBER}" // Se realiza la subida de la imagen al repo GCP
                     }
                 }
                 
             }
         }
-        // stage ("Actualizacion de kubernetes"){
-        //     agent {
-        //         docker {
-        //             image 'alpine/k8s:1.30.2'
-        //             reuseNode true
-        //         }
-        //     }
-        //     steps {
-        //         withKubeConfig([credentialsId: 'gcp-kubeconfig']){
-        //             sh "kubectl -n lab-cmd set image deployments/backend-nest-ele backend-nest-ele=${DOCKER_IMAGE_NAME}/backend-nest-ele:${BUILD_NUMBER}"
-        //         }
-        //     }
-        // }
+        stage ("Actualizacion de kubernetes"){
+            agent {
+                docker {
+                    image 'alpine/k8s:1.30.2'
+                    reuseNode true
+                }
+            }
+            steps {
+                withKubeConfig([credentialsId: 'gcp-kubeconfig']){
+                    sh "kubectl -n lab-ele set image deployments/backend-nest-ele backend-nest-ele=${DOCKER_IMAGE_NAME}/backend-nest-ele:${BUILD_NUMBER}"
+                }
+            }
+        }
     }
 }
