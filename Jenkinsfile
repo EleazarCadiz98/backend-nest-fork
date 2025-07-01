@@ -5,7 +5,7 @@ pipeline {
     // escenarios -> escenario -> pasos
     environment {
         NPM_CONFIG_CACHE= "${WORKSPACE}/.npm"
-        DOCKER_IMAGE_NAME= "us-west1-docker.pkg.dev/lab-agibiz/docker-repository" // Repositorio en GCP
+        DOCKER_IMAGE_PREFIX_NAME= "us-west1-docker.pkg.dev/lab-agibiz/docker-repository" // Repositorio en GCP
         DOCKER_REGISTRY= "https://us-west1-docker.pkg.dev" // Usuario ("registry") de GCP
         DOCKER_REGISTRY_CREDENTIALS= "gcp-registry-ele"  // Credenciales ("REGISTRY") de GCP
     }
@@ -50,9 +50,9 @@ pipeline {
                 script {
                     docker.withRegistry("${DOCKER_REGISTRY}", DOCKER_REGISTRY_CREDENTIALS){ // Funcion que permite hacer login en el REPO DOCKER
                         sh "docker build -t backend-nest-image-ele ." // Se compila la imagen con un nombre personalizado
-                        sh "docker tag backend-nest-image-ele ${DOCKER_IMAGE_NAME}/backend-nest-elemagen" // Se crea un tag de la imagen creada hacia el repo en GCP
-                        sh "docker push ${DOCKER_IMAGE_NAME}/backend-nest-elemagen" // Se realiza la subida de la imagen al repo GCP
-                        sh "docker push ${DOCKER_IMAGE_NAME}/backend-nest-elemagen:${BUILD_NUMBER}" // Se realiza la subida de la imagen al repo GCP
+                        sh "docker tag backend-nest-image-ele ${DOCKER_IMAGE_PREFIX_NAME}/backend-nest-elemagen" // Se crea un tag de la imagen creada hacia el repo en GCP
+                        sh "docker push ${DOCKER_IMAGE_PREFIX_NAME}/backend-nest-elemagen" // Se realiza la subida de la imagen al repo GCP
+                        sh "docker push ${DOCKER_IMAGE_PREFIX_NAME}/backend-nest-elemagen:${BUILD_NUMBER}" // Se realiza la subida de la imagen al repo GCP
                     }
                 }
                 
@@ -67,7 +67,7 @@ pipeline {
             }
             steps {
                 withKubeConfig([credentialsId: 'gcp-kubeconfig']){
-                    sh "kubectl -n lab-ele set image deployments/backend-nest-ele backend-nest-ele=${DOCKER_IMAGE_NAME}/backend-nest-ele:${BUILD_NUMBER}"
+                    sh "kubectl -n lab-ele set image deployments/backend-nest-ele backend-nest-ele=${DOCKER_IMAGE_PREFIX_NAME}/backend-nest-ele:${BUILD_NUMBER}"
                 }
             }
         }
